@@ -67,22 +67,20 @@ class LoginForm extends Component {
   validateSubmit = () => {
     const options = { abortEarly: false };
     const result = Joi.validate(this.state.account, this.schema, options);
-    if (!result.error) return {};
+    if (!result.error) return null;
 
     const errors = {};
     for (let item of result.error.details) {
       errors[item.path[0]] = item.message;
     }
-    console.log(result);
-    console.log(errors);
     return errors;
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validateSubmit();
-    this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
+    this.setState({ errors: errors || {} });
+    if (!errors) {
       console.log(`submitted ${this.state.account.username}`);
     }
   };
@@ -99,7 +97,7 @@ class LoginForm extends Component {
             label="User name"
             value={account.username}
             onChange={this.handleChange}
-            error={errors.username}
+            error={errors ? errors.username : {}}
           />
           <Input
             type="password"
@@ -109,7 +107,11 @@ class LoginForm extends Component {
             onChange={this.handleChange}
             error={errors.password}
           />
-          <button type="submit" className="btn btn-primary">
+          <button
+            disabled={this.validateSubmit()}
+            type="submit"
+            className="btn btn-primary"
+          >
             Login
           </button>
         </form>
