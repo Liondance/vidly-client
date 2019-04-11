@@ -25,6 +25,10 @@ export default class Main extends Component {
     currentPage: 1
   };
 
+  handleNew(props) {
+    props.history.push("/movies/new");
+  }
+
   componentDidMount() {
     this.setState({ movies: getMovies(), genres: getGenres() });
   }
@@ -60,6 +64,17 @@ export default class Main extends Component {
     return { count, view };
   }
 
+  newButton() {
+    return (
+      <button
+        className="btn btn-primary"
+        onClick={() => this.handleNew(this.props)}
+      >
+        New
+      </button>
+    );
+  }
+
   render() {
     const {
       sortColumn,
@@ -72,7 +87,10 @@ export default class Main extends Component {
     const { count, view } = this.getPagedData(this.state);
 
     return count === 0 ? (
-      <p>No movies satisfy criteria.</p>
+      <div>
+        <p>No movies satisfy criteria.</p>
+        {this.newButton()}
+      </div>
     ) : (
       <div className="row">
         <div className="col-2">
@@ -83,6 +101,7 @@ export default class Main extends Component {
           />
         </div>
         <div className="col">
+          {this.newButton()}
           <p> {count} movies posted</p>
           <MoviesTable
             movies={view}

@@ -6,10 +6,10 @@ const Input = ({ type, name, label, value, error, onChange }) => {
       <label htmlFor={name}>{label}</label>
       <input
         id={name}
+        type={type}
         name={name}
         value={value}
         onChange={onChange}
-        type={type}
         className="form-control"
       />
       {error && <div className="alert alert-danger">{error}</div>}
