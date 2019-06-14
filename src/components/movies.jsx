@@ -5,6 +5,7 @@ import _ from "lodash";
 import {
   getMovies,
   getMoviesByGenre,
+  getMoviesByMatch,
   deleteMovie
 } from "../services/fakeMovieService";
 
@@ -14,13 +15,15 @@ import { paginate } from "../utils/paginate";
 import MoviesTable from "./moviesTable";
 import Pagination from "./pagination";
 import Selector from "./selector";
+import SearchBox from "./search-box";
 
 export default class Main extends Component {
   state = {
     movies: [],
     genres: [],
     sortColumn: { path: "title", order: "asc" },
-    currentGenre: null,
+    searchPattern: "",
+    selectedGenre: null,
     currentPage: 1,
     pageSize: 4
   };
@@ -48,16 +51,29 @@ export default class Main extends Component {
     this.setState({ sortColumn });
   }
 
+  updateSearch(searchPattern) {
+    this.setState({ searchPattern: searchPattern, selectedGenre: null });
+  }
+
   handlePageSelection(page) {
     this.setState({ currentPage: page });
   }
 
   handleGenreSelection(genre) {
-    this.setState({ currentGenre: genre, currentPage: 1 });
+    this.setState({ searchPattern: "", selectedGenre: genre, currentPage: 1 });
   }
 
-  getPagedData({ sortColumn, currentGenre, currentPage, pageSize }) {
-    const movies = getMoviesByGenre(currentGenre);
+  getPagedData({
+    sortColumn,
+    searchPattern,
+    selectedGenre,
+    currentPage,
+    pageSize
+  }) {
+    const movies =
+      searchPattern !== ""
+        ? getMoviesByMatch(searchPattern)
+        : getMoviesByGenre(selectedGenre);
     const count = movies.length;
     const sorted = _.orderBy(movies, [sortColumn.path], [sortColumn.order]);
     const view = paginate(sorted, currentPage, pageSize);
@@ -79,29 +95,32 @@ export default class Main extends Component {
     const {
       genres,
       sortColumn,
-      currentGenre,
+      selectedGenre,
       currentPage,
       pageSize
     } = this.state;
 
     const { count, view } = this.getPagedData(this.state);
 
-    return count === 0 ? (
-      <div>
-        <p>No movies satisfy criteria.</p>
-        {this.newButton()}
-      </div>
-    ) : (
+    return (
       <div className="row">
         <div className="col-2">
           <Selector
             items={genres}
-            selected={currentGenre}
+            selected={selectedGenre}
             select={this.handleGenreSelection.bind(this)}
           />
         </div>
         <div className="col">
           {this.newButton()}
+          <SearchBox
+            type="text"
+            name="search"
+            label="Search"
+            value={this.state.searchPattern}
+            error=""
+            onChange={this.updateSearch.bind(this)}
+          />
           <p> {count} movies posted</p>
           <MoviesTable
             movies={view}

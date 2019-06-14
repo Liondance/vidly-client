@@ -81,6 +81,13 @@ export function getMoviesByGenre(genre) {
   return movies.filter(m => m.genre._id === genre._id);
 }
 
+export function getMoviesByMatch(pattern) {
+  return movies.filter(
+    m =>
+      pattern.toLowerCase() == m.title.substr(0, pattern.length).toLowerCase()
+  );
+}
+
 export function saveMovie(movie) {
   let movieInDb = getMovie(movie._id) || {};
   movieInDb.title = movie.title;
