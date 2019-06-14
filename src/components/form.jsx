@@ -8,8 +8,7 @@ class Form extends Component {
     errors: {}
   };
 
-  /*
-  oldValidateChange = ({ name, value }) => {
+  validateChangeWithoutJoi = ({ name, value }) => {
     if (name === "username") {
       if (value.trim() === "") {
         return "User name is required";
@@ -22,7 +21,6 @@ class Form extends Component {
     }
     return null;
   };
-  */
 
   validateChange = ({ name, value }) => {
     const object = { [name]: value };
@@ -44,8 +42,7 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
-  /*
-  oldValidateSubmit = () => {
+  validateSubmitWithoutJoi = () => {
     const errors = {};
     const { data } = this.state;
     if (data.username.trim() === "") {
@@ -56,7 +53,6 @@ class Form extends Component {
     }
     return errors;
   };
-  */
 
   validateSubmit = () => {
     const options = { abortEarly: false };
@@ -90,6 +86,37 @@ class Form extends Component {
         onChange={this.handleChange}
         error={errors ? errors[name] : {}}
       />
+    );
+  };
+
+  renderSelect = (type, name, label, list, ikey, ilabel, options) => {
+    const { data, errors } = this.state;
+    const error = errors ? errors[name] : {};
+
+    return (
+      <div className="form-group">
+        <label htmlFor={name}>{label}</label>
+        <select
+          type={type}
+          name={name}
+          label={label}
+          value={data[name]}
+          onChange={this.handleChange}
+          className="form-control"
+          error={errors[name]}
+          options={options}
+        >
+          <option key="" value="">
+            Select ...
+          </option>
+          {list.map(item => (
+            <option key={item[ikey]} value={item[ikey]}>
+              {item[ilabel]}
+            </option>
+          ))}
+        </select>
+        {error && <div className="alert alert-danger">{error}</div>}
+      </div>
     );
   };
 

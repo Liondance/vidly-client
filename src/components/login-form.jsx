@@ -18,8 +18,8 @@ class LoginForm extends Form {
       .label("Password")
   };
 
-  doSubmit() {
-    console.log(`submitted ${this.state.data.username}`);
+  doSubmit(data) {
+    console.log(`submitted ${data.username}`);
   }
 
   render() {

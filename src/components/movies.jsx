@@ -21,8 +21,8 @@ export default class Main extends Component {
     genres: [],
     sortColumn: { path: "title", order: "asc" },
     currentGenre: null,
-    pageSize: 4,
-    currentPage: 1
+    currentPage: 1,
+    pageSize: 4
   };
 
   handleNew(props) {
@@ -70,15 +70,15 @@ export default class Main extends Component {
         className="btn btn-primary"
         onClick={() => this.handleNew(this.props)}
       >
-        New
+        New Movie
       </button>
     );
   }
 
   render() {
     const {
-      sortColumn,
       genres,
+      sortColumn,
       currentGenre,
       currentPage,
       pageSize
