@@ -18,7 +18,6 @@ export async function getGenres() {
       genres = [...data];
     }
   }
-  console.log(genres);
   return genres;
 }
 

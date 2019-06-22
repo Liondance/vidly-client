@@ -1,91 +1,32 @@
+import config from "../config.json";
+import http from "../services/httpService";
+import logger from "../services/loggingService";
+
 import * as genresAPI from "./genreService";
 
-const movies = [
-  {
-    _id: "5b21ca3eeb7f6fbccd471815",
-    title: "Terminator",
-    genre: { _id: "5d06a40ea07e5e3b989bc843", name: "Action" },
-    numberInStock: 6,
-    dailyRentalRate: 2.5,
-    publishDate: "2018-01-03T19:04:28.809Z"
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd471816",
-    title: "Die Hard",
-    genre: { _id: "5d06a40ea07e5e3b989bc843", name: "Action" },
-    numberInStock: 5,
-    dailyRentalRate: 2.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd471817",
-    title: "Get Out",
-    genre: { _id: "5d06a40ea07e5e3b989bc84b", name: "Thriller" },
-    numberInStock: 8,
-    dailyRentalRate: 3.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd471819",
-    title: "Trip to Italy",
-    genre: { _id: "5d06a40ea07e5e3b989bc83f", name: "Comedy" },
-    numberInStock: 7,
-    dailyRentalRate: 3.5,
-    loved: true
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd47181a",
-    title: "Airplane",
-    genre: { _id: "5d06a40ea07e5e3b989bc83f", name: "Comedy" },
-    numberInStock: 7,
-    dailyRentalRate: 3.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd47181b",
-    title: "Wedding Crashers",
-    genre: { _id: "5d06a40ea07e5e3b989bc83f", name: "Comedy" },
-    numberInStock: 7,
-    dailyRentalRate: 3.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd47181e",
-    title: "Gone Girl",
-    genre: { _id: "5d06a40ea07e5e3b989bc84b", name: "Thriller" },
-    numberInStock: 7,
-    dailyRentalRate: 4.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd47181f",
-    title: "The Sixth Sense",
-    genre: { _id: "5d06a40ea07e5e3b989bc84b", name: "Thriller" },
-    numberInStock: 4,
-    dailyRentalRate: 3.5
-  },
-  {
-    _id: "5b21ca3eeb7f6fbccd471821",
-    title: "The Avengers",
-    genre: { _id: "5d06a40ea07e5e3b989bc843", name: "Action" },
-    numberInStock: 7,
-    dailyRentalRate: 3.5
-  }
-];
+logger.init();
+
+const api = config.api;
+
+let movies = null;
 
 export async function getMovies() {
+  if (movies === null) {
+    const promise = http.get(api + "movies");
+    const { data } = await promise;
+    if (!data) {
+      logger.logException("genres not loaded");
+    } else {
+      movies = [...data];
+    }
+  }
   return movies;
 }
 
-export async function getMovie(id) {
+movies = getMovies();
+
+export function getMovie(id) {
   return movies.find(m => m._id === id);
-}
-
-export function getMoviesByGenre(genre) {
-  if (genre === null) return movies;
-  return movies.filter(m => m.genre._id === genre._id);
-}
-
-export function getMoviesByMatch(pattern) {
-  return movies.filter(
-    m =>
-      pattern.toLowerCase() === m.title.substr(0, pattern.length).toLowerCase()
-  );
 }
 
 export async function saveMovie(movie) {
@@ -105,6 +46,18 @@ export async function deleteMovie(id) {
   let movieInDb = movies.find(m => m._id === id);
   movies.splice(movies.indexOf(movieInDb), 1);
   return movieInDb;
+}
+
+export function getMoviesByGenre(genre) {
+  if (genre === null) return movies;
+  return movies.filter(m => m.genre._id === genre._id);
+}
+
+export function getMoviesByMatch(pattern) {
+  return movies.filter(
+    m =>
+      pattern.toLowerCase() === m.title.substr(0, pattern.length).toLowerCase()
+  );
 }
 
 export function logMovie(movie) {
