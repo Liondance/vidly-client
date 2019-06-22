@@ -7,9 +7,9 @@ import {
   getMoviesByGenre,
   getMoviesByMatch,
   deleteMovie
-} from "../services/fakeMovieService";
+} from "../services/movieService";
 
-import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 
 import MoviesTable from "./moviesTable";

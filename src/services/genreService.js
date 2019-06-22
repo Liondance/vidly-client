@@ -18,10 +18,13 @@ export async function getGenres() {
       genres = [...data];
     }
   }
+  console.log(genres);
   return genres;
 }
 
 export async function getGenre(id) {
-  const genres = getGenres();
+  if (genres === null) {
+    genres = await getGenres();
+  }
   return genres.find(g => g._id === id);
 }
