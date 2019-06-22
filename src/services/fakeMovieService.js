@@ -84,7 +84,7 @@ export function getMoviesByGenre(genre) {
 export function getMoviesByMatch(pattern) {
   return movies.filter(
     m =>
-      pattern.toLowerCase() == m.title.substr(0, pattern.length).toLowerCase()
+      pattern.toLowerCase() === m.title.substr(0, pattern.length).toLowerCase()
   );
 }
 
@@ -101,6 +101,12 @@ export function saveMovie(movie) {
   }
 }
 
+export function deleteMovie(id) {
+  let movieInDb = movies.find(m => m._id === id);
+  movies.splice(movies.indexOf(movieInDb), 1);
+  return movieInDb;
+}
+
 export function logMovie(movie) {
   console.log(`_id: ${movie._id}`);
   console.log(`title: ${movie.title}`);
@@ -108,10 +114,4 @@ export function logMovie(movie) {
   console.log(`genre.name: ${movie.genre.name}`);
   console.log(`numberInStock: ${movie.numberInStock}`);
   console.log(`dailyRentalRate: ${movie.dailyRentalRate}`);
-}
-
-export function deleteMovie(id) {
-  let movieInDb = movies.find(m => m._id === id);
-  movies.splice(movies.indexOf(movieInDb), 1);
-  return movieInDb;
 }

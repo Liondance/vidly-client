@@ -4,6 +4,9 @@ import Form from "./form";
 
 import { getGenres } from "../services/fakeGenreService";
 import { getMovie, saveMovie } from "../services/fakeMovieService";
+import logger from "../services/loggingService";
+
+logger.init();
 
 const newMovie = {
   _id: "new",
@@ -27,12 +30,14 @@ class MovieForm extends Form {
         this.props.history.replace("/movies");
         return;
       }
-
       this.state.data = this.mapToViewModel(movie);
     }
+    this.state.genres = [];
+  }
 
-    this.state.genres = getGenres();
-    this.state.errors = {};
+  async componentDidMount() {
+    const genres = await getGenres();
+    this.setState({ genres });
   }
 
   mapToViewModel(movie) {

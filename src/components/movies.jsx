@@ -32,8 +32,9 @@ export default class Main extends Component {
     props.history.push("/movies/new");
   }
 
-  componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+  async componentDidMount() {
+    const genres = await getGenres();
+    this.setState({ movies: getMovies(), genres });
   }
 
   toggle(movie) {
