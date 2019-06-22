@@ -68,11 +68,11 @@ const movies = [
   }
 ];
 
-export function getMovies() {
+export async function getMovies() {
   return movies;
 }
 
-export function getMovie(id) {
+export async function getMovie(id) {
   return movies.find(m => m._id === id);
 }
 
@@ -89,7 +89,7 @@ export function getMoviesByMatch(pattern) {
 }
 
 export async function saveMovie(movie) {
-  let movieInDb = getMovie(movie._id) || {};
+  let movieInDb = (await getMovie(movie._id)) || {};
   movieInDb.title = movie.title;
   movieInDb.genre = await genresAPI.getGenre(movie.genreId);
   movieInDb.numberInStock = movie.numberInStock;
@@ -101,7 +101,7 @@ export async function saveMovie(movie) {
   }
 }
 
-export function deleteMovie(id) {
+export async function deleteMovie(id) {
   let movieInDb = movies.find(m => m._id === id);
   movies.splice(movies.indexOf(movieInDb), 1);
   return movieInDb;

@@ -34,17 +34,19 @@ export default class Main extends Component {
 
   async componentDidMount() {
     const genres = await getGenres();
-    this.setState({ movies: getMovies(), genres });
+    const movies = await getMovies();
+    this.setState({ movies, genres });
   }
 
-  toggle(movie) {
+  async toggle(movie) {
     movie.loved = !movie.loved;
     this.setState({ movies: this.state.movies });
   }
 
-  remove(movie) {
-    deleteMovie(movie._id);
-    this.setState({ movies: getMovies() });
+  async remove(movie) {
+    await deleteMovie(movie._id);
+    const movies = await getMovies();
+    this.setState({ movies });
   }
 
   sort(sortColumn) {
