@@ -88,10 +88,10 @@ export function getMoviesByMatch(pattern) {
   );
 }
 
-export function saveMovie(movie) {
+export async function saveMovie(movie) {
   let movieInDb = getMovie(movie._id) || {};
   movieInDb.title = movie.title;
-  movieInDb.genre = genresAPI.getGenre(movie.genreId);
+  movieInDb.genre = await genresAPI.getGenre(movie.genreId);
   movieInDb.numberInStock = movie.numberInStock;
   movieInDb.dailyRentalRate = movie.dailyRentalRate;
 

@@ -66,12 +66,12 @@ class Form extends Component {
     return errors;
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
     const errors = this.validateSubmit();
     this.setState({ errors: errors || {} });
     if (!errors) {
-      this.doSubmit(this.state.data);
+      await this.doSubmit(this.state.data);
     }
   };
 

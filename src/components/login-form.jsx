@@ -18,7 +18,7 @@ class LoginForm extends Form {
       .label("Password")
   };
 
-  doSubmit(data) {
+  async doSubmit(data) {
     console.log(`submitted ${data.username}`);
   }
 

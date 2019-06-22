@@ -70,8 +70,8 @@ class MovieForm extends Form {
       .label("Rate")
   };
 
-  doSubmit() {
-    saveMovie(this.state.data);
+  async doSubmit() {
+    await saveMovie(this.state.data);
     this.history.replace("/movies");
   }
 

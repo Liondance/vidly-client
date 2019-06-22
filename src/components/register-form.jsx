@@ -23,7 +23,7 @@ class RegisterForm extends Form {
       .label("Password")
   };
 
-  doSubmit() {
+  async doSubmit() {
     console.log(`submitted ${this.state.data.username}`);
   }
 
