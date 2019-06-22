@@ -2,12 +2,7 @@ import React, { Component } from "react";
 
 import _ from "lodash";
 
-import {
-  getMovies,
-  getMoviesByGenre,
-  getMoviesByMatch,
-  deleteMovie
-} from "../services/movieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 
 import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
@@ -66,19 +61,33 @@ export default class Main extends Component {
     this.setState({ searchPattern: "", selectedGenre: genre, currentPage: 1 });
   }
 
+  getMoviesByGenre(genre, movies) {
+    if (genre === null) return movies;
+    return movies.filter(m => m.genre._id === genre._id);
+  }
+
+  getMoviesByMatch(pattern, movies) {
+    return movies.filter(
+      m =>
+        pattern.toLowerCase() ===
+        m.title.substr(0, pattern.length).toLowerCase()
+    );
+  }
+
   getPagedData({
+    movies,
     sortColumn,
     searchPattern,
     selectedGenre,
     currentPage,
     pageSize
   }) {
-    const movies =
+    const selected =
       searchPattern !== ""
-        ? getMoviesByMatch(searchPattern)
-        : getMoviesByGenre(selectedGenre);
-    const count = movies.length;
-    const sorted = _.orderBy(movies, [sortColumn.path], [sortColumn.order]);
+        ? this.getMoviesByMatch(searchPattern, movies)
+        : this.getMoviesByGenre(selectedGenre, movies);
+    const count = selected.length;
+    const sorted = _.orderBy(selected, [sortColumn.path], [sortColumn.order]);
     const view = paginate(sorted, currentPage, pageSize);
     return { count, view };
   }

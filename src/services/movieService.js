@@ -30,34 +30,24 @@ export function getMovie(id) {
 }
 
 export async function saveMovie(movie) {
-  let movieInDb = (await getMovie(movie._id)) || {};
+  let movieInDb = getMovie(movie._id) || {};
   movieInDb.title = movie.title;
   movieInDb.genre = await genresAPI.getGenre(movie.genreId);
   movieInDb.numberInStock = movie.numberInStock;
   movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
   if (!movieInDb._id) {
-    movieInDb._id = Date.now().toString();
-    movies.push(movieInDb);
+    const result = await http.post(api + "movies", movie);
+    console.log("saveMovie", result);
+    movies = getMovies();
   }
 }
 
 export async function deleteMovie(id) {
   let movieInDb = movies.find(m => m._id === id);
   movies.splice(movies.indexOf(movieInDb), 1);
+  await http.delete(api + "movies/", id);
   return movieInDb;
-}
-
-export function getMoviesByGenre(genre) {
-  if (genre === null) return movies;
-  return movies.filter(m => m.genre._id === genre._id);
-}
-
-export function getMoviesByMatch(pattern) {
-  return movies.filter(
-    m =>
-      pattern.toLowerCase() === m.title.substr(0, pattern.length).toLowerCase()
-  );
 }
 
 export function logMovie(movie) {
