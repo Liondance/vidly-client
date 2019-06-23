@@ -12,16 +12,10 @@ import Rentals from "./components/rentals";
 
 import { ToastContainer } from "react-toastify";
 
-import { getMovies } from "./services/movieService";
-
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 class App extends Component {
-  componentDidMount() {
-    getMovies();
-  }
-
   render() {
     return (
       <React.Fragment>

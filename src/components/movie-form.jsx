@@ -4,9 +4,6 @@ import Form from "./form";
 
 import { getGenres } from "../services/genreService";
 import { getMovie, saveMovie } from "../services/movieService";
-import logger from "../services/loggingService";
-
-logger.init();
 
 const newMovie = {
   _id: "new",
@@ -19,22 +16,33 @@ const newMovie = {
 class MovieForm extends Form {
   constructor(props) {
     super(props);
-    this.history = props.history;
     this.state.data = newMovie;
     this.state.genres = [];
   }
 
-  async componentDidMount() {
-    const movieId = this.props.match.params.id;
+  async loadGenres() {
+    const { data: genres } = await getGenres();
+    this.setState({ genres });
+  }
+
+  async loadMovie(movieId) {
     if (movieId === "new") {
       this.setState({ data: { ...newMovie } });
     } else {
-      const movie = await getMovie(movieId);
-      this.setState({ data: this.mapToViewModel(movie) });
+      try {
+        const { data: movie } = await getMovie(movieId);
+        this.setState({ data: this.mapToViewModel(movie) });
+      } catch (ex) {
+        if (ex.response && ex.response.staus === 404) {
+          this.props.history.replace("/not-found");
+        }
+      }
     }
+  }
 
-    const genres = await getGenres();
-    this.setState({ genres });
+  async componentDidMount() {
+    await this.loadGenres();
+    await this.loadMovie(this.props.match.params.id);
   }
 
   mapToViewModel(movie) {
@@ -67,10 +75,10 @@ class MovieForm extends Form {
       .label("Rate")
   };
 
-  async doSubmit() {
-    this.history.replace("/movies");
+  doSubmit = async () => {
+    this.props.history.replace("/movies/");
     await saveMovie(this.state.data);
-  }
+  };
 
   render() {
     return (

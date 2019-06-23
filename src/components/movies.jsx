@@ -28,8 +28,8 @@ export default class Main extends Component {
   }
 
   async componentDidMount() {
-    const genres = await getGenres();
-    const movies = await getMovies();
+    const { data: genres } = await getGenres();
+    const { data: movies } = await getMovies();
     this.setState({ movies, genres });
   }
 
@@ -40,7 +40,7 @@ export default class Main extends Component {
 
   async remove(movie) {
     await deleteMovie(movie._id);
-    const movies = await getMovies();
+    const { data: movies } = await getMovies();
     this.setState({ movies });
   }
 
