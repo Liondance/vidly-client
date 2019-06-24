@@ -1,19 +1,17 @@
 import config from "../config.json";
 import http from "../services/httpService";
 
-const api = config.api;
-
-let movies = [];
+const api = config.api + "movies/";
 
 export function getMovies() {
-  return http.get(api + "movies/");
+  return http.get(api);
 }
 
 export function getMovie(id) {
-  return http.get(api + "movies/" + id);
+  return http.get(api + id);
 }
 
-export async function saveMovie(movie) {
+export function saveMovie(movie) {
   let movieInDb = {};
   movieInDb.title = movie.title;
   movieInDb.genreId = movie.genreId;
@@ -23,23 +21,14 @@ export async function saveMovie(movie) {
   const update = movie._id !== "new";
 
   if (update) {
-    return http.put(api + "movies/" + movie._id, movieInDb);
+    return http.put(api + movie._id, movieInDb);
   } else {
-    return http.post(api + "movies/", movieInDb);
+    return http.post(api, movieInDb);
   }
 }
 
-export async function deleteMovie(id) {
-  let movieInDb = movies.find(m => m._id === id);
-  movies.splice(movies.indexOf(movieInDb), 1);
-  movieInDb = await http.delete(api + "movies/", id);
-  return movieInDb;
+export function deleteMovie(id) {
+  // let movieInDb = movies.find(m => m._id === id);
+  // movies.splice(movies.indexOf(movieInDb), 1);
+  return http.delete(api, id);
 }
-
-async function loadMovies() {
-  const promise = http.get(api + "movies");
-  const { data } = await promise;
-  return data;
-}
-
-movies = loadMovies();
