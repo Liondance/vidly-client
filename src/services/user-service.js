@@ -1,5 +1,5 @@
 import config from "../config.json";
-import http from "../services/httpService";
+import http from "./http-service";
 
 const api = config.api + "users";
 

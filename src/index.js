@@ -9,7 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 
-import logger from "./services/loggingService";
+import logger from "./services/logging-service";
 
 logger.init();
 

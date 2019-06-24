@@ -1,7 +1,7 @@
 import React from "react";
 
-import TableHeader from "./tableHeader";
-import TableBody from "./tableBody";
+import TableHeader from "./table-header";
+import TableBody from "./table-body";
 
 export default function Table({ data, columns, sortColumn, sort }) {
   return (

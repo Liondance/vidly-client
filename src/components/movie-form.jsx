@@ -2,8 +2,8 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
 
-import { getGenres } from "../services/genreService";
-import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../services/genre-service";
+import { getMovie, saveMovie } from "../services/movie-service";
 
 const newMovie = {
   _id: "new",

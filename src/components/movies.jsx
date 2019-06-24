@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import _ from "lodash";
 
-import { getMovies, deleteMovie } from "../services/movieService";
+import { getMovies, deleteMovie } from "../services/movie-service";
 
-import { getGenres } from "../services/genreService";
+import { getGenres } from "../services/genre-service";
 import { paginate } from "../utils/paginate";
 
-import MoviesTable from "./moviesTable";
+import MoviesTable from "./movies-table";
 import Pagination from "./pagination";
 import Selector from "./selector";
 import SearchBox from "./search-box";
