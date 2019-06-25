@@ -44,7 +44,7 @@ const NavBar = ({ user }) => {
               <NavLink className="nav-item nav-link" to="/profile">
                 {user.name}
               </NavLink>
-              <NavLink className="nav-item nav-link" to="/login">
+              <NavLink className="nav-item nav-link" to="/logout">
                 Logout
               </NavLink>
             </React.Fragment>

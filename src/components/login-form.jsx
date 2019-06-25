@@ -19,6 +19,10 @@ class LoginForm extends Form {
       .label("Password")
   };
 
+  componentDidMount() {
+    localStorage.removeItem("token");
+  }
+
   async doSubmit(data) {
     try {
       const { username: email, password } = this.state.data;
