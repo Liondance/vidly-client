@@ -7,9 +7,23 @@ const api_user = config.api + "users";
 
 const tokenKey = "token";
 
+function loginWithJwt(jwt) {
+  localStorage.setItem(tokenKey, jwt);
+  http.setJwt(jwt);
+}
+
+// exports
+
+function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 function getCurrentUser() {
   try {
-    const jwt = localStorage.getItem(tokenKey);
+    const jwt = getJwt();
+    if (!jwt) {
+      return null;
+    }
     const user = jwtDecode(jwt);
     return user;
   } catch (ex) {
@@ -17,13 +31,10 @@ function getCurrentUser() {
   }
 }
 
-async function loginWithJwt(jwt) {
-  localStorage.setItem(tokenKey, jwt);
-}
-
 async function registerUser(user) {
   const { headers } = await http.post(api_user, user);
-  loginWithJwt(headers["x-auth-token"]);
+  const jwt = headers["x-auth-token"];
+  loginWithJwt(jwt);
 }
 
 async function login(email, password) {
@@ -35,4 +46,10 @@ function logout() {
   localStorage.removeItem(tokenKey);
 }
 
-export default { getCurrentUser, registerUser, loginWithJwt, login, logout };
+export default {
+  getJwt,
+  getCurrentUser,
+  registerUser,
+  login,
+  logout
+};

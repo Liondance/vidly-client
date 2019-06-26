@@ -1,9 +1,15 @@
 import React, { Component } from "react";
+import auth from "../services/auth-service";
 import { Link } from "react-router-dom";
 import Loved from "./loved";
 import Table from "./table";
 
 class MoviesTable extends Component {
+  isAdmin() {
+    const user = auth.getCurrentUser();
+    return user !== null && user.email === "admin@west.org";
+  }
+
   columns = [
     {
       key: "title",
@@ -21,14 +27,15 @@ class MoviesTable extends Component {
     },
     {
       key: "delete",
-      content: movie => (
-        <button
-          className="btn btn-danger"
-          onClick={() => this.props.remove(movie)}
-        >
-          delete
-        </button>
-      )
+      content: movie =>
+        this.isAdmin() ? (
+          <button
+            className="btn btn-danger"
+            onClick={() => this.props.remove(movie)}
+          >
+            delete
+          </button>
+        ) : null
     }
   ];
 
