@@ -12,8 +12,6 @@ import Pagination from "./pagination";
 import Selector from "./selector";
 import SearchBox from "./search-box";
 
-import auth from "../services/auth-service";
-
 export default class Main extends Component {
   state = {
     movies: [],
