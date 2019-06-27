@@ -12,6 +12,8 @@ import Pagination from "./pagination";
 import Selector from "./selector";
 import SearchBox from "./search-box";
 
+import auth from "../services/auth-service";
+
 export default class Main extends Component {
   state = {
     movies: [],
@@ -114,6 +116,8 @@ export default class Main extends Component {
 
     const { count, view } = this.getPagedData(this.state);
 
+    const user = this.props.user;
+
     return (
       <div className="row">
         <div className="col-2">
@@ -124,7 +128,7 @@ export default class Main extends Component {
           />
         </div>
         <div className="col">
-          {this.newButton()}
+          {user && user.email === "admin@west.org" && this.newButton()}
           <SearchBox
             type="text"
             name="search"

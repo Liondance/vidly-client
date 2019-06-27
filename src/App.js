@@ -11,6 +11,7 @@ import NavBar from "./components/navbar";
 import NotFound from "./components/notfound";
 import RegisterForm from "./components/register-form";
 import Rentals from "./components/rentals";
+import ProtectedRoute from "./components/protected-route";
 import auth from "./services/auth-service";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -25,20 +26,24 @@ class App extends Component {
   }
 
   render() {
+    const { user } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar user={this.state.user} />
+        <NavBar user={user} />
         <main className="container">
           <Switch>
             <Route path="/register" component={RegisterForm} />
             <Route path="/login" component={LoginForm} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
-            <Route path="/customers" component={Customers} />
-            <Route path="/rentals" component={Rentals} />
-            <Route path="/unknown" component={NotFound} />
+            <ProtectedRoute path="/logout" component={Logout} />
+            <ProtectedRoute path="/movies/:id" component={MovieForm} />;
+            <ProtectedRoute
+              path="/movies"
+              render={props => <Movies {...props} user={user} />}
+            />
+            <ProtectedRoute path="/customers" component={Customers} />
+            <ProtectedRoute path="/rentals" component={Rentals} />
+            <ProtectedRoute path="/unknown" component={NotFound} />
             <Redirect from="/" exact to="/movies" />
             <Redirect to="/unknown" />
           </Switch>
@@ -49,3 +54,12 @@ class App extends Component {
 }
 
 export default App;
+
+/*
+<ProtectedRoute
+path="/movies/:id"
+render={props => {
+  return <MovieForm {...props} />;
+}}
+/>
+*/
