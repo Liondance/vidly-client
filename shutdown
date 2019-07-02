@@ -1,0 +1,1 @@
+kill $(ps | grep node | grep $1 | cut -b 1-9)
