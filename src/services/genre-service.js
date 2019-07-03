@@ -1,12 +1,11 @@
-import config from "../config.json";
 import http from "./http-service";
 
 const api = config.api;
 
 export function getGenres() {
-  return http.get(api + "genres");
+  return http.get("/genres");
 }
 
 export function getGenre(id) {
-  return http.get(api + "genres/" + id);
+  return http.get("/genres/" + id);
 }

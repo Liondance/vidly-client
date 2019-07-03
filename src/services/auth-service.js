@@ -1,9 +1,8 @@
-import config from "../config.json";
 import jwtDecode from "jwt-decode";
 import http from "./http-service";
 
-const api_auth = config.api + "auth";
-const api_user = config.api + "users";
+const api_auth = "/auth";
+const api_user = "/users";
 
 const tokenKey = "token";
 

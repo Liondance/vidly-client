@@ -1,7 +1,6 @@
-import config from "../config.json";
 import http from "../services/http-service";
 
-const api = config.api + "movies/";
+const api = "/movies/";
 
 export function getMovies() {
   return http.get(api);
