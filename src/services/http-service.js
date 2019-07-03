@@ -2,7 +2,7 @@ import axios from "axios";
 import logger from "./logging-service";
 import { toast } from "react-toastify";
 
-axios.interceptors.request.use(null, onRejected);
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 function setJwt(jwt) {
   if (jwt) {
@@ -22,6 +22,8 @@ function onRejected(error) {
   }
   Promise.reject(error);
 }
+
+axios.interceptors.request.use(null, onRejected);
 
 export default {
   setJwt,
