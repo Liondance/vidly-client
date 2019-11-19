@@ -1,3 +1,17 @@
+# vidly-client
+
+Vidly-client is a React based Web client for a fictitious video rental application.
+The corresponding Vidly-server is a node.js based server (express) for the same application.
+
+These projects are part of an online course I highly recommend:
+
+- Instructor: Mosh Hamedani
+- https://codewithmosh.com/
+
+The code was written by myself (Liondance) while making progress on the course.
+
+----
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
