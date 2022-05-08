@@ -1,0 +1,13 @@
+const genres = [
+  { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+  { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
+  { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" }
+];
+
+export async function getGenres() {
+  return genres;
+}
+
+export async function getGenre(id) {
+  return genres.find(g => g._id === id);
+}
