@@ -1,3 +1,6 @@
+///
+/// logging-service.js
+///
 
 function logMessage(message) {
   console.log("message: " + message);
@@ -7,7 +10,9 @@ function logException(ex) {
   console.log("exception: " + ex);
 }
 
-export default {
+const exported = {
   logMessage,
-  logException
+  logException,
 };
+
+export default exported;

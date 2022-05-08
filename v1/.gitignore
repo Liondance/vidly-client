@@ -1,9 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# just in case
-.jic/
+# just in case, backup files, etc.
+/.jic
+*.bak
 
-# lock
+# log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# package lock
 package-lock.json
 
 # dependencies
@@ -23,7 +29,3 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

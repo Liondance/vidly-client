@@ -1,3 +1,7 @@
+///
+/// http-service.js
+///
+
 import axios from "axios";
 import logger from "./logging-service";
 import { toast } from "react-toastify";
@@ -25,10 +29,12 @@ function onRejected(error) {
 
 axios.interceptors.request.use(null, onRejected);
 
-export default {
+const exported = {
   setJwt,
   get: axios.get,
   post: axios.post,
   put: axios.put,
-  delete: axios.delete
+  delete: axios.delete,
 };
+
+export default exported;

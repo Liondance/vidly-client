@@ -1,3 +1,7 @@
+///
+/// auth-service.js
+///
+
 import jwtDecode from "jwt-decode";
 import http from "./http-service";
 
@@ -45,10 +49,12 @@ function logout() {
   localStorage.removeItem(tokenKey);
 }
 
-export default {
+const exported = {
   getJwt,
   getCurrentUser,
   registerUser,
   login,
   logout
 };
+
+export default exported;
